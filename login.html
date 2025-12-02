@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+  font-family: Arial;
+  background: #f0f7ff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.form-box {
+  background: white;
+  padding: 30px;
+  width: 350px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 1px solid #aaa;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  background: #0077ff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+  </style>
+</head>
+<body>
+  <nav>
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="save-water.html">How to Save Water</a>
+        <a href="news.html">News & Articles</a>
+        <a href="calculate.html">Calculator</a>
+        <a href="scan.html">Scan</a>
+        <a href="calculator.html">Calculate individual items</a>
+         <a href="signup.html">Sign up</a>
+          <a href="login.html">Login</a>
+      </nav>
+
+<div class="form-box">
+  <h2>Welcome Back</h2>
+
+  <input id="email" type="email" placeholder="Email">
+  <input id="password" type="password" placeholder="Password">
+
+  <button onclick="login()">Login</button>
+
+  <p>No account? <a href="signup.html">Sign Up</a></p>
+</div>
+
+<script>
+async function login() {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  const res = await fetch("http://localhost:5000/api/auth/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password })
+  });
+
+  const data = await res.json();
+
+  if (data.token) {
+    localStorage.setItem("token", data.token);
+    alert("Login successful");
+    window.location.href = "index.html";
+  } else {
+    alert(data.error);
+  }
+}
+</script>
+
+</body>
+</html>

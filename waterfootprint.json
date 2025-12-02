@@ -1,0 +1,22 @@
+{
+  "rice": 2500,
+  "wheat": 1827,
+  "milk": 1020,
+  "egg": 196,
+  "chicken": 4325,
+  "beef": 15400,
+  "banana": 160,
+  "apple": 125,
+  "potato": 287,
+  "tomato": 214,
+  "onion": 120,
+  "sugar": 1782,
+  "coffee": 140,
+  "tea": 30,
+  "cheese": 5060,
+  "bread": 1608,
+  "cotton": 10000,
+  "chocolate": 17196,
+  "pasta": 1900,
+  "default": "No data available for this item"
+}

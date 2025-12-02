@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💧 Water Footprint Tracker - Home (Grey Theme)</title>
+    <style>
+        /* BASE STYLES */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa; /* Very light gray/off-white background */
+            margin: 0;
+            padding: 0;
+        }
+
+        /* NAVIGATION BAR */
+        nav {
+            background-color: #343a40; /* Dark charcoal gray for NavBar */
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+            box-sizing: border-box;
+        }
+
+        .nav-logo {
+            color: #ffffff;
+            font-size: 24px;
+            font-weight: 700;
+            text-decoration: none;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        nav a {
+            color: #f8f9fa; /* Light text */
+            text-decoration: none;
+            font-size: 16px;
+            padding: 8px 15px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        nav a:hover {
+            background-color: #495057; /* Slightly lighter charcoal on hover */
+            transform: translateY(-1px);
+        }
+
+        nav a.active {
+            background-color: #6c757d; /* Medium gray for active state */
+            font-weight: 600;
+        }
+
+        nav a.locked {
+            background-color: #212529; /* Darker grey for locked state */
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        /* PAGE CONTENT */
+        .container {
+            margin-top: 100px;
+            text-align: center;
+            padding: 50px 20px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeIn 1.4s ease-in-out;
+        }
+
+        /* ANIMATED HEADING - TYPING EFFECT */
+        h1 {
+            color: #343a40; /* Dark charcoal color for prominence */
+            font-size: 44px;
+            letter-spacing: 0.5px;
+            margin-bottom: 20px;
+            overflow: hidden; 
+            border-right: .15em solid #adb5bd; /* Silver blinking cursor */
+            white-space: nowrap;
+            margin: 0 auto;
+            animation: 
+                typing 3s steps(40, end),
+                blink-caret .75s step-end infinite;
+        }
+
+        /* Typing animation keyframes */
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        /* Blinking cursor keyframes */
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #adb5bd } /* Silver flash */
+        }
+
+
+        p {
+            color: #495057; /* Darker grey for good readability */
+            font-size: 18px;
+            max-width: 700px;
+            margin: 30px auto;
+            line-height: 1.7;
+            opacity: 0;
+            animation: fadeIn 2.8s ease-in-out 1s forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* SUBTLE GRAY WAVE DECORATION */
+        .water-wave {
+            width: 180px;
+            height: 4px;
+            background: linear-gradient(to right, #adb5bd, #6c757d, #adb5bd); /* Gray gradient */
+            margin: 20px auto 35px;
+            border-radius: 2px;
+            opacity: 0;
+            animation: fadeIn 2.2s ease forwards;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+        }
+
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-logo">💧 WaterTracker</div>
+        <div class="nav-links">
+            <a href="home.html" class="active">Home</a>
+            <a href="about.html">About</a>
+            <a href="save-water.html">Save Water</a>
+            <a href="news.html">News</a>
+            <a href="#" id="calcLink" class="locked">Calculator</a>
+            <a href="scan.html">Scan</a>
+            <a href="signup.html">Sign Up</a>
+            <a href="login.html">Login</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1>Welcome to the Water Footprint Calculator</h1>
+        <div class="water-wave"></div>
+
+        <p>
+            Every product has a hidden story behind it — the water it consumes before it ever reaches your hands. 
+            Our platform merges **AI, Big Data, and Blockchain** for reliable and transparent insights. 
+            Learn, explore, and understand the impact of your daily choices. 
+            <br><br>
+            **Create an account or sign in to unlock the full calculator** and track your personal water footprint history.
+        </p>
+    </div>
+
+<script>
+    // Unlock Calculator if logged in (Client-side simulation)
+    const token = localStorage.getItem("token"); // Checks for a stored user token
+    const calcLink = document.getElementById("calcLink");
+
+    if (token) {
+        calcLink.classList.remove("locked");
+        calcLink.href = "calculate.html";
+    }
+</script>
+
+</body>
+</html>
+
+

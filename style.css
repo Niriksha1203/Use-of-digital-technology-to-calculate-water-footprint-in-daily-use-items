@@ -1,0 +1,637 @@
+/* ------------------- RESET ------------------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  height: 100%;
+  font-family: Arial, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f0f4f8;
+  min-height: 100vh;
+}
+
+/* Container to push footer down */
+.container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ------------------- HEADER ------------------- */
+header {
+  background-color: #0077b6;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+.logo-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.logo-title img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+}
+
+header h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+/* Navigation */
+header nav {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+header nav a {
+  color: white;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  font-weight: 500;
+  transition: background 0.3s;
+}
+
+header nav a:hover,
+header nav a.active {
+  background-color: #0096c7;
+}
+
+/* Language Switcher */
+.language-switcher {
+  margin-top: 10px;
+}
+
+.language-switcher button {
+  padding: 5px 10px;
+  margin: 0 5px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  background-color: #00b4d8;
+  color: white;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.language-switcher button:hover {
+  background-color: #90e0ef;
+}
+
+/* ------------------- MAIN CONTENT ------------------- */
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.cta-btn {
+  padding: 15px 30px;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 8px;
+  background-color: #00b4d8;
+  color: white;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background 0.3s;
+}
+
+.cta-btn:hover {
+  background-color: #0077b6;
+}
+
+/* ------------------- FOOTER ------------------- */
+footer {
+  background-color: #023e8a;
+  color: white;
+  text-align: center;
+  padding: 15px 0;
+  flex-shrink: 0;
+}
+
+/* ------------------- PAGE HERO ------------------- */
+.page-hero {
+  text-align: center;
+  padding: 30px 20px;
+  background-color: #cce0ff;
+  border-bottom: 1px solid #99c2ff;
+  margin-bottom: 20px;
+  border-radius: 8px;
+}
+
+.page-hero h1 {
+  color: #004080;
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+}
+
+.page-hero p {
+  max-width: 900px;
+  margin: 0 auto;
+  color: #003366;
+  font-size: 1rem;
+}
+
+/* ------------------- GRID / CARDS ------------------- */
+.grid, .tips-grid, .detail-sections, .about-grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  padding: 20px 0;
+}
+
+figure.card, .tip, .detail, .about-card {
+  background-color: #ffffff;
+  padding: 18px;
+  border-radius: 10px;
+  border: 1px solid #99c2ff;
+  box-shadow: 0 4px 12px rgba(0, 64, 128, 0.08);
+  transition: transform 0.3s, box-shadow 0.3s;
+  text-align: center;
+}
+
+figure.card:hover, .tip:hover, .detail:hover, .about-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 64, 128, 0.15);
+}
+
+figure.card img, .about-card img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+figure.card figcaption, .tip h4, .detail p, .detail ul li, .about-card p {
+  font-size: 0.95rem;
+  color: #003366;
+}
+
+/* About card */
+.about-card {
+  overflow: hidden;
+  transition: transform 0.2s;
+}
+
+/* ------------------- TABLE ------------------- */
+table.data {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+  font-size: 0.95rem;
+}
+
+table.data th, table.data td {
+  border: 1px solid #99c2ff;
+  padding: 10px;
+  text-align: left;
+}
+
+table.data th {
+  background-color: #cce0ff;
+  color: #003366;
+}
+
+/* ------------------- TIPS ------------------- */
+.tip {
+  background-color: #e6f0fa;
+  border: 1px solid #99c2ff;
+}
+
+.tip h4 {
+  color: #003366;
+  margin-bottom: 6px;
+}
+
+/* ------------------- BACK BUTTON ------------------- */
+.back-btn {
+  display: inline-block;
+  margin-top: 20px;
+  background-color: #004080;
+  color: #ffffff;
+  padding: 10px 18px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.3s;
+}
+
+.back-btn:hover {
+  background-color: #002b5c;
+}
+
+/* ------------------- RESPONSIVE ------------------- */
+@media (max-width: 768px) {
+  header nav {
+    flex-direction: column;
+  }
+
+  .cta-btn {
+    width: 80%;
+  }
+
+  .logo-title {
+    gap: 10px;
+  }
+
+  .grid, .tips-grid, .detail-sections, .about-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  header h1, .page-hero h1 {
+    font-size: 1.5rem;
+  }
+
+  .cta-btn {
+    font-size: 1rem;
+  }
+
+  .logo-title img {
+    width: 50px;
+    height: 50px;
+  }
+
+  main {
+    padding: 0 10px;
+  }
+}
+
+/* ------------------- RESET ------------------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  height: 100%;
+  font-family: Arial, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  flex-direction: column;
+  background-color: #f0f4f8;
+  color: #333;
+}
+
+/* Container to push footer down */
+.container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ------------------- HEADER ------------------- */
+header {
+  background-color: #0077b6;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+header h1 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+nav {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  font-weight: 500;
+  transition: background 0.3s;
+}
+
+nav a:hover,
+nav a.active {
+  background-color: #0096c7;
+}
+
+/* Language Switcher */
+.language-switcher {
+  margin-top: 10px;
+}
+
+.language-switcher button {
+  padding: 5px 10px;
+  margin: 0 5px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  background-color: #00b4d8;
+  color: white;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.language-switcher button:hover {
+  background-color: #90e0ef;
+}
+
+/* ------------------- MAIN CONTENT ------------------- */
+main {
+  flex: 1;
+  padding: 40px 20px;
+}
+
+.tips-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.tips-section h2 {
+  color: #004080;
+  font-size: 2rem;
+  margin-bottom: 30px;
+}
+
+/* Grid of tips */
+.tips-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.tip-card {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #99c2ff;
+  box-shadow: 0 4px 12px rgba(0, 64, 128, 0.08);
+  transition: transform 0.3s, box-shadow 0.3s;
+  text-align: center;
+}
+
+.tip-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 64, 128, 0.15);
+}
+
+.tip-card img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.tip-card h3 {
+  color: #003366;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.tip-card p {
+  color: #003366;
+  font-size: 0.95rem;
+}
+
+/* ------------------- FOOTER ------------------- */
+footer {
+  background-color: #023e8a;
+  color: white;
+  text-align: center;
+  padding: 15px 0;
+  flex-shrink: 0;
+}
+
+/* ------------------- RESPONSIVE ------------------- */
+@media (max-width: 768px) {
+  .tips-grid {
+    grid-template-columns: 1fr;
+  }
+
+  nav {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  header h1 {
+    font-size: 1.5rem;
+  }
+
+  .tip-card img {
+    height: 130px;
+  }
+
+  .tip-card h3 {
+    font-size: 1.1rem;
+  }
+
+  .tip-card p {
+    font-size: 0.9rem;
+  }
+}
+/* style.css: Grey Color Combination */
+
+/* 1. Root Variables & Body Setup */
+:root {
+    /* Grey Palette */
+    --background: #F4F4F9; /* Very light grey/off-white for main background */
+    --card-background: #FFFFFF; /* Pure white for cards */
+    --text-primary: #333333; /* Dark charcoal grey for main text */
+    --text-secondary: #666666; /* Medium grey for secondary text/small print */
+    --border-color: #E0E0E0; /* Light grey for borders and separators */
+    
+    /* Accent Color (Deep Blue for Water/Brand Identity) */
+    --brand1: #0077B6; /* Primary brand blue */
+    --brand2: #0096C7; /* Secondary brand blue (used in gradient) */
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--background);
+    color: var(--text-primary);
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+/* 2. Header and Navigation */
+.header {
+    background-color: var(--card-background);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h1 {
+    font-size: 24px;
+    color: var(--brand1);
+    margin: 0;
+}
+
+.header nav a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    margin-left: 20px;
+    padding: 5px 0;
+    transition: color 0.3s;
+}
+
+.header nav a:hover {
+    color: var(--brand1);
+}
+
+.language-switcher button {
+    background: none;
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    padding: 5px 10px;
+    margin-left: 5px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.language-switcher button:hover {
+    background-color: var(--border-color);
+}
+
+/* 3. Main Layout */
+.container {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 0 20px;
+    display: grid;
+    gap: 20px;
+}
+
+@media (min-width: 768px) {
+    .container {
+        /* Define a grid structure for wider screens if needed */
+        grid-template-columns: 2fr 1fr; /* Example: Calculator wider than Scanner */
+    }
+    
+    /* Ensure all sections span the full width of the container on smaller screens */
+    .card:last-of-type {
+        grid-column: span 2; /* Make the final section span both columns */
+    }
+}
+
+/* 4. Card Styling (General Containers) */
+.card {
+    background-color: var(--card-background);
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--border-color);
+}
+
+.card h2, .card h3 {
+    color: var(--text-primary);
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 10px;
+    margin-top: 0;
+}
+
+.small {
+    font-size: 0.9em;
+    color: var(--text-secondary);
+}
+
+/* 5. Buttons and Inputs (Interactive Elements) */
+.btn {
+    background-color: var(--brand1);
+    color: var(--card-background); /* White text on blue button */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 16px;
+    flex-grow: 1; /* Make buttons grow to fill space */
+    transition: background-color 0.3s, opacity 0.3s;
+}
+
+.btn:hover {
+    background-color: var(--brand2);
+}
+
+.btn:disabled {
+    background-color: #AAAAAA; /* Darker grey when disabled */
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* 6. Water Footprint Result Styling */
+.center {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#waterCircle {
+    /* Style pulled from HTML, just making sure the border color is consistent */
+    border: 12px solid var(--brand1);
+    color: var(--brand1);
+    background-color: #e6f7ff; /* Very light blue fill */
+}
+
+#resultMessage {
+    margin-top: 10px;
+    font-style: italic;
+    color: var(--brand1);
+}
+
+/* 7. Footer */
+.footer {
+    text-align: center;
+    padding: 15px 0;
+    margin-top: 30px;
+    font-size: 0.8em;
+    color: var(--text-secondary);
+    border-top: 1px solid var(--border-color);
+}
+
+/* 8. Utility Classes for Input fields/Question elements */
+/* These would be used for dynamically inserted elements in calculate.js */
+.question-item label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.question-item input[type="number"],
+.question-item select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    box-sizing: border-box; /* Include padding/border in element's total width/height */
+}

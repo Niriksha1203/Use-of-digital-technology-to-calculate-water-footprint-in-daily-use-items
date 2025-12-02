@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="i18n.js" defer></script>
+  <title>News & Articles</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      background: #f4faff;
+      color: #333;
+    }
+
+    header {
+      background: linear-gradient(135deg, #0077b6, #00b4d8);
+      color: white;
+      text-align: center;
+      padding: 25px 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+      text-shadow: 1px 1px 6px rgba(0,0,0,0.3);
+    }
+
+    nav {
+      margin-top: 10px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: white;
+      margin: 0 10px;
+      font-weight: bold;
+      padding: 8px 14px;
+      border-radius: 20px;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    nav a:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: scale(1.05);
+    }
+
+    main {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 20px;
+    }
+
+    h2.section-title {
+      text-align: center;
+      font-size: 1.8rem;
+      color: #0077b6;
+      margin-bottom: 20px;
+    }
+
+    .news-list {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    article {
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      padding: 20px;
+      transition: transform 0.3s ease;
+    }
+
+    article:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+    }
+
+    article h3 {
+      margin-top: 0;
+      color: #023e8a;
+    }
+
+    article img {
+      width: 100%;
+      border-radius: 10px;
+      margin: 10px 0;
+    }
+
+    .research-papers {
+      background: #e6f7ff;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .research-paper {
+      margin-bottom: 15px;
+    }
+
+    footer {
+      text-align: center;
+      background: #0077b6;
+      color: white;
+      padding: 10px;
+      margin-top: 40px;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>📰 Water News & Articles</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="save-water.html">How to Save Water</a>
+      <a href="news.html">News & Articles</a>
+      <a href="calculate.html">Calculator</a>
+    </nav>
+    <div class="language-switcher">
+      <button onclick="changeLanguage('en')">English</button>
+      <button onclick="changeLanguage('hi')">हिन्दी</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- NEWS SECTION -->
+    <h2 class="section-title">Latest News & Insights</h2>
+    <section class="news-list">
+      <article>
+        <h3>🌍 Global Water Crisis 2025</h3>
+        <img src="images/global-water-crisis.jpg" alt="Global Water Crisis">
+        <p>As of 2025, nearly <b>2.2 billion people</b> worldwide still lack access to safe drinking water. 
+        Recent studies show that by 2030, water demand could exceed supply by <b>40%</b> if we don't take immediate action.</p>
+        <ul>
+          <li>🔹 Countries like India and South Africa are seeing rising groundwater depletion.</li>
+          <li>🔹 Climate change is increasing drought frequency and severity.</li>
+          <li>🔹 Governments are investing in desalination and wastewater recycling plants.</li>
+        </ul>
+        <p><b>Takeaway:</b> Water conservation at the individual and industrial level is crucial to prevent future crises.</p>
+      </article>
+
+      <article>
+        <h3>💡 Smart Ways to Save Water at Home</h3>
+        <img src="images/save-water-tips.jpg" alt="Water saving tips">
+        <p>Households are responsible for about <b>10-15%</b> of total water usage in most cities. Here are proven ways to cut water waste:</p>
+        <ul>
+          <li>🚿 Install low-flow showerheads and faucets.</li>
+          <li>💧 Fix leaks – a dripping tap can waste up to 3000L per year.</li>
+          <li>🌱 Collect rainwater for gardening and cleaning.</li>
+          <li>🧺 Use washing machines with full loads only.</li>
+        </ul>
+        <p><b>Tip:</b> Small changes in your home can save thousands of liters every month.</p>
+      </article>
+
+      <article>
+        <h3>🌧️ Rainwater Harvesting Success Stories</h3>
+        <img src="images/rainwater-harvesting.jpg" alt="Rainwater harvesting system">
+        <p>Communities around the world are turning rooftops into water tanks. A school in Rajasthan, India, recently installed a 
+        rooftop harvesting system and collected <b>2 million liters</b> during monsoon season — enough to meet their water needs for a year!</p>
+        <p>Rainwater harvesting not only reduces dependence on groundwater but also prevents urban flooding.</p>
+      </article>
+    </section>
+
+    <!-- RESEARCH PAPERS -->
+    <h2 class="section-title">📑 Research Highlights</h2>
+    <section class="research-papers">
+      <div class="research-paper">
+        <h4>📄 Water Footprint Assessment: A Global Perspective</h4>
+        <p>This paper provides a comprehensive look at water use across agriculture, industry, and households worldwide, highlighting the top contributors to overuse.</p>
+      </div>
+      <div class="research-paper">
+        <h4>📄 Sustainable Water Management & Policy</h4>
+        <p>Focuses on strategies like wastewater recycling, precision irrigation, and government policies that can reduce water scarcity risks.</p>
+      </div>
+      <div class="research-paper">
+        <h4>📄 Climate Change Impact on Water Resources</h4>
+        <p>Explores how rising global temperatures are shifting rainfall patterns and increasing drought conditions in key agricultural regions.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Water Footprint Project | Stay Informed, Save Water</p>
+  </footer>
+</body>
+</html>

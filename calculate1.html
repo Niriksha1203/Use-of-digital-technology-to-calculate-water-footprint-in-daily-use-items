@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Water Footprint AI Calculator</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.16.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom right, #424649, #666768);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      width: 90%;
+      max-width: 500px;
+      text-align: center;
+    }
+    video {
+      width: 100%;
+      border-radius: 10px;
+      margin-top: 10px;
+    }
+    button {
+      background-color: #505254;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      margin: 5px;
+    }
+    .item { background: #e7f5ff; margin: 5px 0; padding: 8px; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Scan Your Item</h2>
+    <video id="camera" autoplay></video><br>
+    <button onclick="captureAndIdentify()">📸 Scan Item</button>
+    <div id="itemsList"></div>
+    <h3 id="total">Total Water: 0 L</h3>
+  </div>
+
+  <script>
+    const video = document.getElementById('camera');
+    const itemsList = document.getElementById('itemsList');
+    let model, totalWater = 0;
+
+    const waterData = {
+      coffee: 140,      // per cup
+      tea: 30,         // per cup
+      juice: 170,      // per glass
+      milk: 1000,      // per litre
+      shirt: 2700,     // per shirt
+      pants: 7600,     // per jeans
+      rice: 2500,      // per kg
+      apple: 70        // per apple
+    };
+
+    async function setupCamera() {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      video.srcObject = stream;
+    }
+
+    async function loadModel() {
+      model = await mobilenet.load();
+      console.log("Model Loaded ✅");
+    }
+
+    async function captureAndIdentify() {
+      // Create a canvas to capture current frame
+      const canvas = document.createElement('canvas');
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      // Predict using model
+      const prediction = await model.classify(canvas);
+      const bestMatch = prediction[0].className.toLowerCase();
+      console.log("Detected:", bestMatch);
+
+      let matchedItem = Object.keys(waterData).find(item => bestMatch.includes(item));
+
+      if (matchedItem) {
+        totalWater += waterData[matchedItem];
+        displayItem(matchedItem, waterData[matchedItem]);
+      } else {
+        alert("Couldn't recognize item, try again.");
+      }
+    }
+
+    function displayItem(name, water) {
+      const div = document.createElement("div");
+      div.className = "item";
+      div.textContent = `${name.toUpperCase()} - 💧 ${water} L`;
+      itemsList.appendChild(div);
+      document.getElementById("total").textContent = `Total Water: ${totalWater} L`;
+    }
+
+    setupCamera();
+    loadModel();
+  </script>
+</body>
+</html>

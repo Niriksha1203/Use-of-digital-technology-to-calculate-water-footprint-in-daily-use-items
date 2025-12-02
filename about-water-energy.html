@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Water to Make Energy</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #eef7ff;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #023e8a;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      font-size: 1.8rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+    .content {
+      max-width: 950px;
+      margin: 20px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      line-height: 1.8;
+    }
+    h2 {
+      color: #023e8a;
+      margin-top: 25px;
+    }
+    .energy-section {
+      display: flex;
+      align-items: flex-start;
+      background: #f5faff;
+      margin: 15px 0;
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.08);
+      transition: transform 0.3s ease-in-out;
+    }
+    .energy-section img {
+      width: 100px;
+      margin-right: 15px;
+      border-radius: 10px;
+    }
+    .energy-section:hover {
+      transform: scale(1.02);
+    }
+    .fact-box {
+      background: #fff3cd;
+      border-left: 5px solid #f59f00;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 8px;
+    }
+    .tip-box {
+      background: #d9fdd3;
+      border-left: 5px solid #34a853;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 8px;
+    }
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background: #f7faff;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .comparison-table th, .comparison-table td {
+      border: 1px solid #ccc;
+      padding: 12px;
+      text-align: center;
+    }
+    .comparison-table th {
+      background: #0077b6;
+      color: white;
+    }
+    .calculator-box {
+      background: #f0f9ff;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 12px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.08);
+    }
+    .calculator-box input {
+      padding: 8px;
+      margin: 8px 0;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      width: 100%;
+    }
+    .result {
+      font-weight: bold;
+      margin-top: 10px;
+      color: #023e8a;
+    }
+    footer {
+      text-align: center;
+      margin-top: 30px;
+    }
+    button {
+      background: #0077b6;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 10px;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+    button:hover {
+      background: #023e8a;
+    }
+  </style>
+</head>
+<body>
+  <header>⚡ Water to Make Energy</header>
+
+  <main class="content">
+    <p>
+      Did you know that almost every kilowatt-hour (kWh) of electricity you use has a hidden water cost?
+      Water is required for cooling power plants, producing fuel, and generating electricity.
+      This relationship is known as the <b>Water-Energy Nexus</b>.
+    </p>
+
+    <div class="fact-box">
+      💧 <b>Global Fact:</b> Around <b>15% of all freshwater withdrawals</b> worldwide are used for energy production.
+    </div>
+
+    <h2>🔎 How Energy Production Uses Water</h2>
+    <div class="energy-section">
+      <img src="https://cdn-icons-png.flaticon.com/512/3105/3105883.png" alt="Power Plant">
+      <p>
+        In a typical power plant, water is heated to produce steam. This steam turns turbines to generate electricity.
+        Afterward, large amounts of water are used to cool down the system before it can start again.
+      </p>
+    </div>
+
+    <h2>💦 Water Use by Energy Source</h2>
+    <table class="comparison-table">
+      <tr>
+        <th>Energy Source</th>
+        <th>Water Use (L/kWh)</th>
+        <th>Details</th>
+      </tr>
+      <tr>
+        <td>Coal Power Plant</td>
+        <td>20–50</td>
+        <td>Cooling turbines and cleaning exhaust gases.</td>
+      </tr>
+      <tr>
+        <td>Natural Gas Plant</td>
+        <td>10–20</td>
+        <td>Lower water use compared to coal, but still significant.</td>
+      </tr>
+      <tr>
+        <td>Nuclear Power</td>
+        <td>25–45</td>
+        <td>Heavy water usage for cooling reactors.</td>
+      </tr>
+      <tr>
+        <td>Hydropower</td>
+        <td>Depends on river flow</td>
+        <td>No water consumed, but affects ecosystems.</td>
+      </tr>
+      <tr>
+        <td>Solar PV</td>
+        <td>~0</td>
+        <td>Water used only for cleaning panels occasionally.</td>
+      </tr>
+      <tr>
+        <td>Wind</td>
+        <td>~0</td>
+        <td>No water required for operation.</td>
+      </tr>
+    </table>
+
+    <h2>📈 The Hidden Cost of Energy</h2>
+    <p>
+      When you switch on a light or use your computer, you are indirectly using water. 
+      Saving electricity is one of the easiest ways to conserve water.
+    </p>
+
+    <h2>🧮 Quick Water-Energy Calculator</h2>
+    <div class="calculator-box">
+      <label for="units">Enter your monthly electricity usage (kWh):</label>
+      <input type="number" id="units" placeholder="e.g. 200">
+      <button onclick="calculateWater()">Calculate Water Footprint</button>
+      <p class="result" id="calcResult"></p>
+    </div>
+
+    <h2>🌱 How to Save Water by Saving Energy</h2>
+    <div class="tip-box">
+      <ul>
+        <li>Switch to energy-efficient appliances (LED bulbs, star-rated devices).</li>
+        <li>Turn off lights, fans, and electronics when not in use.</li>
+        <li>Use public transport, cycle, or walk to save fuel (fuel production uses water).</li>
+        <li>Consider installing solar panels to generate water-free power.</li>
+      </ul>
+    </div>
+
+    <div class="fact-box">
+      📊 <b>Quick Fact:</b> Saving just <b>1 kWh</b> of electricity can save up to <b>50 liters</b> of water in water-intensive regions!
+    </div>
+
+    <footer>
+      <button onclick="location.href='about.html'">🏠 Back to Topics</button>
+    </footer>
+  </main>
+
+  <script>
+    function calculateWater() {
+      const units = document.getElementById("units").value;
+      if (units > 0) {
+        const waterUsed = units * 40; // Avg water use per kWh (liters)
+        document.getElementById("calcResult").textContent = 
+          `💧 Your monthly electricity use consumed approx ${waterUsed.toLocaleString()} liters of water!`;
+      } else {
+        document.getElementById("calcResult").textContent = "⚠️ Please enter a valid number!";
+      }
+    }
+  </script>
+</body>
+</html>

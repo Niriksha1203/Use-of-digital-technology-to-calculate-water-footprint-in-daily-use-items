@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AI Image Recognition</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    .box { background: #eee; padding: 20px; border-radius: 10px; }
+  </style>
+</head>
+<body>
+
+  <h2>Upload Product Image</h2>
+
+  <input type="file" id="imageInput">
+  <button onclick="uploadImage()">Scan</button>
+
+  <div class="box" id="result"></div>
+
+<script>
+function uploadImage() {
+  let file = document.getElementById("imageInput").files[0];
+  let formData = new FormData();
+  formData.append("image", file);
+
+  fetch("http://localhost:5000/api/recognize-image", {
+    method: "POST",
+    body: formData
+  })
+  .then(res => res.json())
+  .then(data => {
+    let box = document.getElementById("result");
+
+    if (data.ok) {
+      box.innerHTML = `
+        <h3>Product: ${data.product}</h3>
+        <p>Water Footprint: ${data.water_footprint} Liters</p>
+        <p>Barcode: ${data.code}</p>
+      `;
+    } else {
+      box.innerHTML = `
+        <h3>${data.message}</h3>
+        <p>AI Predicted: ${data.prediction}</p>
+      `;
+    }
+  });
+}
+</script>
+
+</body>
+</html>

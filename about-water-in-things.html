@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Water in the Things You Buy</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .image-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
+    }
+    .image-gallery img {
+      width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease;
+    }
+    .image-gallery img:hover {
+      transform: scale(1.05);
+    }
+    .highlight-box {
+      background: #f0f8ff;
+      border-left: 6px solid #0077b6;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .tips-box {
+      background: #fff4e6;
+      border-left: 6px solid #f4a261;
+      padding: 12px;
+      margin-top: 20px;
+      border-radius: 8px;
+    }
+    h1, h3 {
+      color: #0077b6;
+    }
+    ul {
+      margin-left: 20px;
+    }
+     body {
+    background: #ffffff; /* or a light shade to make heading stand out */
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  header {
+    background: #0077b6; /* blue background for contrast */
+    text-align: center;
+    padding: 20px;
+    border-bottom: 4px solid #023e8a;
+  }
+  header h1 {
+    color: white; /* white text to stand out */
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 0;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+  }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>💧 Water in the Things You Buy</h1>
+  </header>
+
+  <main class="content">
+    <p>
+      Every item you purchase has a <b>hidden water cost</b>. This is known as your 
+      <b>indirect (or virtual) water footprint</b> — the water used to grow, process, 
+      and transport products before they reach you. Understanding this helps you make 
+      smarter, more sustainable choices.
+    </p>
+
+    <div class="highlight-box">
+      <h3>👕 Clothes & Fashion</h3>
+      <p>
+        Cotton is one of the thirstiest crops on Earth. It needs huge amounts of water 
+        for irrigation, washing, dyeing, and finishing.
+      </p>
+      <ul>
+        <li>1 cotton T-shirt = <b>2,700 liters</b> (enough for 900 days of drinking water!)</li>
+        <li>1 pair of jeans = <b>7,600 liters</b> (cotton + dyeing + washing)</li>
+        <li>Global fashion industry accounts for <b>~4% of global freshwater use</b></li>
+      </ul>
+    </div>
+
+    <div class="image-gallery">
+      <img src="C:/Users/ADMIN/OneDrive/Desktop/water-footprint-project/frontend/cotton.webp" alt="Cotton field">
+      <img src="C:/Users/ADMIN/OneDrive/Desktop/water-footprint-project/frontend/jeans.jpg" alt="Jeans stack">
+    </div>
+
+    <div class="highlight-box">
+      <h3>👟 Shoes & Leather Goods</h3>
+      <p>
+        Leather production has one of the highest water footprints because:
+      </p>
+      <ul>
+        <li>Water is used to grow feed for cattle</li>
+        <li>Water is needed for the animals themselves</li>
+        <li>The tanning process uses large quantities of water and chemicals</li>
+      </ul>
+      <p><b>One pair of leather shoes can require 8,000+ liters of water!</b></p>
+    </div>
+
+    <div class="image-gallery">
+      <img src="C:/Users/ADMIN/OneDrive/Desktop/water-footprint-project/frontend/cow.jpg" alt="Cow grazing">
+      <img src="C:/Users/ADMIN/OneDrive/Desktop/water-footprint-project/frontend/leather shoes.jpg" alt="Leather shoes">
+    </div>
+
+    <div class="highlight-box">
+      <h3>📱 Electronics & Technology</h3>
+      <p>
+        Electronics have a surprisingly high water footprint due to:
+      </p>
+      <ul>
+        <li>Water used to clean silicon wafers for chips</li>
+        <li>Cooling during manufacturing processes</li>
+        <li>Production of rare-earth metals</li>
+      </ul>
+      <p>
+        A single smartphone takes about <b>900 liters</b> of water to produce. 
+        Laptops and large electronics use even more.
+      </p>
+    </div>
+
+    <div class="image-gallery">
+      <img src="C:/Users/ADMIN/OneDrive/Desktop/water-footprint-project/frontend/chip.jpg" alt="Microchip">
+      <img src="C:/Users/ADMIN/OneDrive/Desktop/water-footprint-project/frontend/phone.jpg" alt="Smartphone">
+    </div>
+
+    <div class="tips-box">
+      <h3>🌱 Tips to Reduce Your Hidden Water Footprint</h3>
+      <ul>
+        <li>Buy fewer, higher-quality clothes — wear them longer.</li>
+        <li>Choose organic cotton or recycled fabrics when possible.</li>
+        <li>Repair or upcycle shoes and clothes instead of replacing them.</li>
+        <li>Recycle electronics responsibly, and upgrade devices less frequently.</li>
+        <li>Support brands that use sustainable and water-efficient practices.</li>
+      </ul>
+    </div>
+
+    <p>
+      Every purchase is a vote. By being mindful about what you buy, 
+      you help save <b>thousands of liters of water</b> and protect freshwater ecosystems.
+    </p>
+  </main>
+
+  <footer>
+    <button onclick="location.href='about.html'">⬅ Back to Topics</button>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "cup": "200 L (ceramic production)",
+  "jeans": "7,600 L (cotton production)",
+  "t-shirt": "2,700 L (cotton production)",
+  "shoe": "8,000 L (leather production)",
+  "coffee": "140 L (per cup)",
+  "tea": "30 L (per cup)",
+  "rice": "2,500 L (per kg)",
+  "milk": "1,000 L (per litre)",
+  "egg": "200 L (per egg)",
+  "bread": "1,600 L (per kg)",
+  "juice": "170 L (per glass)",
+  "water bottle": "1 L (per bottle)",
+  "default": "No data available for this item"
+}

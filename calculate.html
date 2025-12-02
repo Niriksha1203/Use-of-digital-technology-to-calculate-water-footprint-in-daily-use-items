@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Calculate Water Footprint</title>
+  <link rel="stylesheet" href="style.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <header class="header">
+    <h1>📊 Water Footprint Calculator</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="save-water.html">How to Save Water</a>
+      <a href="news.html">News & Articles</a>
+      <a href="calculate.html">Calculator</a>
+    </nav>
+    <div class="language-switcher">
+      <button onclick="changeLanguage('en')">English</button>
+      <button onclick="changeLanguage('hi')">हिन्दी</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h2>Step-by-step Questions</h2>
+      <div id="progressBar" style="height:8px;background:#e6f7ff;border-radius:8px;overflow:hidden;margin-bottom:12px">
+        <div id="progressFill" style="height:100%;width:0%;background:linear-gradient(90deg,var(--brand1),var(--brand2));"></div>
+      </div>
+
+      <div id="questionContainer"></div>
+
+      <div style="display:flex;gap:10px;margin-top:12px;">
+        <button id="prevBtn" class="btn" disabled>⬅ Previous</button>
+        <button id="nextBtn" class="btn">Next ➡</button>
+      </div>
+    </section>
+
+    <section id="resultCard" class="card" style="display:none;">
+      <h2 class="center">🌊 Your Water Footprint</h2>
+      <div class="center">
+        <div id="waterCircle" style="width:160px;height:160px;border-radius:50%;border:12px solid #00aaff;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;margin:0 auto;">
+          0 L
+        </div>
+        <p id="resultMessage" class="small"></p>
+      </div>
+
+      <canvas id="pieChart" style="margin-top:16px;"></canvas>
+    </section>
+
+    
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+function downloadReport(total) {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  doc.setFontSize(20);
+  doc.text("🌊 Water Footprint Report", 20, 20);
+  doc.setFontSize(14);
+  doc.text(`Your Estimated Daily Water Usage: ${total} L`, 20, 40);
+  doc.text("Tips to Save Water:", 20, 60);
+  doc.text("• Take shorter showers", 25, 70);
+  doc.text("• Run full washing machine loads", 25, 80);
+  doc.text("• Fix leaks and drips", 25, 90);
+
+  doc.save("Water_Footprint_Report.pdf");
+}
+</script>
+
+<button onclick="downloadReport(finalTotal)">📄 Download PDF</button>
+
+  </main>
+
+  <footer class="footer">© 2025 Water Footprint Project</footer>
+
+  <script src="calculate.js"></script>
+</body>
+</html>

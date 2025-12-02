@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Water Footprint — MobileNet Scanner</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <!-- TensorFlow.js and MobileNet -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.16.0/dist/tf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@2.1.0/dist/mobilenet.min.js"></script>
+
+  <style>
+    :root{
+      --bg1:#e6f5ff;
+      --bg2:#d1efff;
+      --card:#ffffff;
+      --accent:#0b63d6;
+      --muted:#586b8a;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,Arial,sans-serif;background:linear-gradient(135deg,var(--bg1),var(--bg2));min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+    .app{width:100%;max-width:980px;background:var(--card);border-radius:16px;box-shadow:0 10px 30px rgba(12,46,80,0.12);overflow:hidden;display:grid;grid-template-columns:1fr 420px}
+    header{grid-column:1/-1;padding:20px 28px;border-bottom:1px solid #eef6ff;background:linear-gradient(90deg,#f8fdff, #f0fbff)}
+    header h1{margin:0;font-size:20px;color:var(--accent)}
+    .left{padding:18px}
+    .right{padding:18px;border-left:1px solid #f1f8ff;background:#fbfdff}
+    .video-wrap{position:relative;border-radius:12px;overflow:hidden;border:1px solid #e6f2ff}
+    video{display:block;width:100%;height:100%;object-fit:cover;background:#000}
+    canvas{display:none}
+    .controls{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+    button{background:var(--accent);color:#fff;border:none;padding:10px 12px;border-radius:10px;cursor:pointer;font-weight:600}
+    button.secondary{background:#fff;color:var(--accent);border:1px solid #d6eaff}
+    .status{margin-top:10px;color:var(--muted);font-size:13px}
+    .predictions{margin-top:12px}
+    .pred-item{padding:8px;border-radius:8px;background:#f1fbff;margin-bottom:8px;font-size:14px;display:flex;justify-content:space-between;align-items:center}
+    .list{max-height:420px;overflow:auto;padding-right:8px}
+    .selected-item{display:flex;gap:10px;align-items:center;justify-content:space-between;padding:8px;border-radius:8px;background:#f9fcff;margin-bottom:8px}
+    .selected-item input[type="number"]{width:80px;padding:6px;border-radius:8px;border:1px solid #e6f2ff}
+    .total{margin-top:12px;padding:12px;border-radius:10px;background:linear-gradient(90deg,#e8f6ff,#f7fdff);font-weight:700;color:var(--accent)}
+    .manual{display:flex;gap:8px;margin-top:12px}
+    input[type="text"]{padding:8px;border-radius:8px;border:1px solid #e6f2ff;flex:1}
+    small{color:var(--muted)}
+    @media(max-width:880px){.app{grid-template-columns:1fr;}.right{border-left:none;border-top:1px solid #f1f8ff}}
+  </style>
+</head>
+<body>
+  <div class="app" role="application" aria-label="Water Footprint Scanner">
+    <header>
+      <h1>💧 Water Footprint — Camera-based Item Recognition (MobileNet)</h1>
+      <small>Point the camera at an item (coffee cup, shirt, bottle, etc). The model will suggest labels — confirm & enter quantity to add to total.</small>
+    </header>
+
+    <section class="left">
+      <div class="video-wrap" style="height:360px">
+        <video id="video" autoplay playsinline></video>
+        <canvas id="captureCanvas"></canvas>
+      </div>
+
+      <div class="controls">
+        <button id="startBtn">Start Camera</button>
+        <button id="stopBtn" class="secondary">Stop Camera</button>
+        <button id="scanBtn" class="secondary">Scan (Capture Frame)</button>
+        <button id="identifyBtn">Identify & Add</button>
+      </div>
+
+      <div class="status" id="status">Model not loaded yet — loading MobileNet...</div>
+
+      <div class="predictions" id="predictions" aria-live="polite"></div>
+
+      <div class="manual">
+        <input id="manualName" type="text" placeholder="Manual item name (e.g. 'coffee')" />
+        <input id="manualQty" type="number" min="1" step="1" value="1" style="width:84px" />
+        <button id="manualAdd">Add Manually</button>
+      </div>
+
+      <div style="margin-top:12px"><small>Tip: Good lighting and single object in frame improve recognition accuracy.</small></div>
+    </section>
+
+    <aside class="right">
+      <h3 style="margin-top:0">Detected / Selected Items</h3>
+      <div class="list" id="itemsList" role="region" aria-label="scanned items"></div>
+
+      <div class="total" id="total">Total water footprint: 0 L</div>
+      <div style="margin-top:12px;display:flex;gap:8px">
+        <button id="downloadCsv" class="secondary">Download CSV</button>
+        <button id="clearAll" class="secondary">Clear All</button>
+      </div>
+    </aside>
+  </div>
+
+  <script>
+    // -------- Water footprint mapping (example values). Extend as needed. --------
+    // Units are *per unit* — e.g., 'coffee' -> 140 (per cup), 'shirt' -> 2700 (per piece)
+    const WATER_DB = {
+      coffee: { name: "Coffee (cup)", liters: 140, unit: "cup" },
+      tea: { name: "Tea (cup)", liters: 35, unit: "cup" },
+      juice: { name: "Juice (glass)", liters: 170, unit: "glass" },
+      bottle: { name: "Bottled Drink (1 unit)", liters: 5, unit: "piece" }, // packaging guess
+      milk: { name: "Milk (liter)", liters: 1000, unit: "liter" },
+      shirt: { name: "Cotton T-shirt", liters: 2700, unit: "piece" },
+      jeans: { name: "Jeans (pair)", liters: 7600, unit: "pair" },
+      rice: { name: "Rice (kg)", liters: 2500, unit: "kg" },
+      apple: { name: "Apple", liters: 70, unit: "piece" },
+      banana: { name: "Banana", liters: 80, unit: "piece" },
+      orange: { name: "Orange", liters: 50, unit: "piece" },
+      bread: { name: "Bread (1 loaf)", liters: 1600, unit: "loaf" }
+      // Add more items and better values for your project
+    };
+
+    // -------- App state --------
+    let model = null;
+    let stream = null;
+    let lastPrediction = null;
+    const selectedItems = []; // { name, key, qty, litersPerUnit, footprint }
+
+    // Elements
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('captureCanvas');
+    const statusEl = document.getElementById('status');
+    const predictionsEl = document.getElementById('predictions');
+    const itemsListEl = document.getElementById('itemsList');
+    const totalEl = document.getElementById('total');
+
+    // Buttons
+    const startBtn = document.getElementById('startBtn');
+    const stopBtn = document.getElementById('stopBtn');
+    const scanBtn = document.getElementById('scanBtn');
+    const identifyBtn = document.getElementById('identifyBtn');
+    const manualAddBtn = document.getElementById('manualAdd');
+    const downloadCsvBtn = document.getElementById('downloadCsv');
+    const clearAllBtn = document.getElementById('clearAll');
+
+    const manualNameInput = document.getElementById('manualName');
+    const manualQtyInput = document.getElementById('manualQty');
+
+    // -------- Helpers --------
+    function setStatus(text) { statusEl.textContent = text; }
+    function updateTotal() {
+      const total = selectedItems.reduce((s, it) => s + it.footprint, 0);
+      totalEl.textContent = `Total water footprint: ${total.toFixed(2)} L`;
+    }
+    function addSelected(item) {
+      selectedItems.push(item);
+      renderSelectedList();
+      updateTotal();
+    }
+    function renderSelectedList() {
+      itemsListEl.innerHTML = '';
+      selectedItems.forEach((it, idx) => {
+        const div = document.createElement('div');
+        div.className = 'selected-item';
+        div.innerHTML = `
+          <div style="flex:1">
+            <div style="font-weight:700">${escapeHtml(it.name)}</div>
+            <div style="font-size:12px;color:${'#586b8a'}">${it.qty} × ${it.litersPerUnit} L / ${it.unit} = ${it.footprint.toFixed(2)} L</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end">
+            <input type="number" min="1" value="${it.qty}" style="width:76px;padding:6px;border-radius:8px;border:1px solid #e6f2ff" />
+            <div style="display:flex;gap:6px">
+              <button data-idx="${idx}" class="removeBtn secondary" style="padding:6px;border-radius:8px">Remove</button>
+            </div>
+          </div>
+        `;
+        // update qty listener
+        const qtyInput = div.querySelector('input[type="number"]');
+        qtyInput.addEventListener('input', (e) => {
+          const q = Math.max(1, Number(e.target.value) || 1);
+          it.qty = q;
+          it.footprint = it.litersPerUnit * it.qty;
+          renderSelectedList();
+          updateTotal();
+        });
+        itemsListEl.appendChild(div);
+      });
+
+      // attach remove listeners
+      Array.from(document.getElementsByClassName('removeBtn')).forEach(btn => {
+        btn.addEventListener('click', (ev) => {
+          const idx = Number(ev.target.dataset.idx);
+          selectedItems.splice(idx, 1);
+          renderSelectedList();
+          updateTotal();
+        });
+      });
+    }
+
+    function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[c])); }
+
+    function downloadCSV() {
+      if (!selectedItems.length) { alert('No items to download'); return; }
+      const rows = [
+        ['Name','Quantity','Unit','LitersPerUnit','Footprint(L)'],
+        ...selectedItems.map(it => [it.name, it.qty, it.unit || '', it.litersPerUnit, it.footprint.toFixed(2)])
+      ];
+      rows.push([]);
+      rows.push(['Total', selectedItems.reduce((s,i)=>s+i.footprint,0).toFixed(2)]);
+      const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+      const blob = new Blob([csv], {type:'text/csv'});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'water_footprint_report.csv';
+      a.click();
+    }
+
+    // -------- Camera & Model --------
+    async function startCamera() {
+      if (stream) return;
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' }, audio: false });
+        video.srcObject = stream;
+        await video.play();
+        setStatus('Camera started. You can capture frames.');
+      } catch (err) {
+        console.error(err);
+        setStatus('Cannot access camera. Check permissions and https / localhost.');
+      }
+    }
+
+    function stopCamera() {
+      if (!stream) return;
+      stream.getTracks().forEach(t => t.stop());
+      stream = null;
+      video.pause();
+      video.srcObject = null;
+      setStatus('Camera stopped.');
+    }
+
+    async function loadMobileNet() {
+      setStatus('Loading MobileNet model...');
+      try {
+        // mobilenet.load() returns a model that can be used with model.classify(img)
+        model = await mobilenet.load({ version: 2, alpha: 1.0 });
+        setStatus('MobileNet loaded. Start camera and scan items.');
+      } catch (err) {
+        console.error(err);
+        setStatus('Failed to load model. Check network.');
+      }
+    }
+
+    // Capture current frame to an offscreen canvas and classify
+    async function captureFrameAndPredict() {
+      if (!model) { alert('Model not loaded yet'); return null; }
+      if (!video.videoWidth || !video.videoHeight) { alert('Camera not ready'); return null; }
+
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      // classify accepts an image/canvas/video element
+      try {
+        const predictions = await model.classify(canvas, 5); // get top 5
+        lastPrediction = predictions;
+        renderPredictions(predictions);
+        return predictions;
+      } catch (err) {
+        console.error(err);
+        setStatus('Prediction error');
+        return null;
+      }
+    }
+
+    function renderPredictions(predictions) {
+      predictionsEl.innerHTML = '';
+      if (!predictions || !predictions.length) { predictionsEl.textContent = 'No predictions'; return; }
+      predictions.forEach(p => {
+        const div = document.createElement('div');
+        div.className = 'pred-item';
+        const label = document.createElement('div');
+        label.innerHTML = `<strong>${escapeHtml(p.className)}</strong>`;
+        const conf = document.createElement('div');
+        conf.style.opacity = '0.8';
+        conf.style.fontSize = '13px';
+        conf.textContent = `${(p.probability*100).toFixed(1)}%`;
+        div.appendChild(label);
+        div.appendChild(conf);
+        predictionsEl.appendChild(div);
+      });
+      setStatus('Top predictions shown. Click "Identify & Add" to map to water values.');
+    }
+
+    // Attempt to match MobileNet label to our WATER_DB keys (fuzzy contains)
+    function matchPredictionToWaterDB(predictions) {
+      if (!predictions || !predictions.length) return null;
+      for (const p of predictions) {
+        const label = p.className.toLowerCase();
+        // check each key if it's contained in the label or vice versa
+        for (const key of Object.keys(WATER_DB)) {
+          if (label.includes(key) || key.includes(label) || label.split(',').some(part => part.trim()===key)) {
+            return { key, score: p.probability, label: p.className };
+          }
+        }
+      }
+      return null;
+    }
+
+    // When user confirms "Identify & Add", ask quantity and add to selected
+    async function identifyAndAdd() {
+      if (!lastPrediction) {
+        alert('No predictions available — capture a frame first by pressing Scan.');
+        return;
+      }
+      const match = matchPredictionToWaterDB(lastPrediction);
+      if (!match) {
+        // If no match found, show top labels and let user choose (manual fallback)
+        const topLabels = lastPrediction.map(p => p.className).join('\\n');
+        if (!confirm(`Could not auto-match to water DB. Top labels:\\n${topLabels}\\n\\nDo you want to add manually?`)) return;
+        const manualName = prompt('Enter item name (e.g., coffee, shirt):');
+        if (!manualName) return;
+        const key = manualName.toLowerCase().trim();
+        await addItemFromKey(key);
+        return;
+      }
+
+      // matched key found
+      await addItemFromKey(match.key);
+    }
+
+    async function addItemFromKey(key) {
+      let entry = WATER_DB[key];
+      if (!entry) {
+        // Ask user for liters per unit when unknown
+        const name = prompt(`Item "${key}" not in DB. Enter display name (or press Cancel):`, key);
+        if (!name) return;
+        const litersStr = prompt('Enter liters per unit (numeric). Example: 140 for a cup of coffee', '0');
+        const liters = Number(litersStr);
+        if (isNaN(liters) || liters <= 0) {
+          alert('Invalid liters value, item not added.');
+          return;
+        }
+        const unit = prompt('Enter unit (e.g., cup, piece, kg):', 'piece') || 'piece';
+        entry = { name, liters, unit };
+        // Add to in-memory DB so future scans can match
+        WATER_DB[key] = entry;
+      }
+
+      // quantity prompt
+      let qty = prompt(`Enter quantity of "${entry.name}" to add (integer)`, '1');
+      qty = Math.max(1, Math.floor(Number(qty) || 1));
+
+      const itemObj = {
+        name: entry.name,
+        key,
+        qty,
+        litersPerUnit: entry.liters,
+        unit: entry.unit,
+        footprint: qty * entry.liters
+      };
+      addSelected(itemObj);
+      setStatus(`Added ${qty} × ${entry.name} (${entry.liters} L each).`);
+    }
+
+    // Manual add via UI inputs
+    function addManual() {
+      const nameRaw = manualNameInput.value.trim();
+      if (!nameRaw) return alert('Enter item name');
+      const key = nameRaw.toLowerCase();
+      let entry = WATER_DB[key];
+      let liters = null;
+      let unit = '';
+      if (entry) {
+        liters = entry.liters;
+        unit = entry.unit;
+      } else {
+        const litersStr = prompt(`No DB entry for "${nameRaw}". Enter liters per unit (numeric). Example: 140 for coffee cup`, '0');
+        liters = Number(litersStr);
+        if (isNaN(liters) || liters <= 0) { alert('Invalid liters'); return; }
+        unit = prompt('Enter unit (e.g., cup, piece, kg):', 'piece') || 'piece';
+        WATER_DB[key] = { name: nameRaw, liters, unit };
+      }
+      let qty = Math.max(1, Math.floor(Number(manualQtyInput.value) || 1));
+      const itemObj = { name: WATER_DB[key].name, key, qty, litersPerUnit: WATER_DB[key].liters, unit: WATER_DB[key].unit, footprint: qty * WATER_DB[key].liters };
+      addSelected(itemObj);
+      manualNameInput.value = '';
+      manualQtyInput.value = '1';
+      setStatus(`Manually added ${qty} × ${itemObj.name}`);
+    }
+
+    // -------- Events --------
+    startBtn.addEventListener('click', startCamera);
+    stopBtn.addEventListener('click', stopCamera);
+    scanBtn.addEventListener('click', () => {
+      setStatus('Capturing frame and running prediction...');
+      captureFrameAndPredict();
+    });
+    identifyBtn.addEventListener('click', identifyAndAdd);
+    manualAddBtn.addEventListener('click', addManual);
+    downloadCsvBtn.addEventListener('click', downloadCSV);
+    clearAllBtn.addEventListener('click', () => { selectedItems.length = 0; renderSelectedList(); updateTotal(); setStatus('Cleared all items'); });
+
+    // -------- Initialize model on load --------
+    (async () => {
+      await loadMobileNet();
+      // optionally start camera automatically:
+      // await startCamera();
+    })();
+  </script>
+</body>
+</html>

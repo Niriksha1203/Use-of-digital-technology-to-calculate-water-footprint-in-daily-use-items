@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scan Product — Water Footprint</title>
+<style>
+  body { font-family: "Segoe UI", Arial, sans-serif; background: #e5e5e5; margin: 0; text-align: center; color: #333; }
+  h1 { margin-top: 20px; font-weight: 600; color: #444; }
+  video { width: 90%; max-width: 550px; border-radius: 12px; border: 3px solid #888; margin-top: 20px; box-shadow: 0px 4px 12px rgba(0,0,0,0.25); }
+  button { margin-top: 20px; padding: 12px 25px; background: #4b4b4b; color: white; border: none; border-radius: 8px; font-size: 1.1rem; cursor: pointer; transition: 0.25s; }
+  button:hover { background: #6a6a6a; transform: scale(1.05); }
+  #result { margin-top: 25px; display: flex; justify-content: center; padding: 0 20px; }
+  .water-result { background: #f2f2f2; border-left: 4px solid #555; padding: 18px; border-radius: 12px; width: 100%; max-width: 420px; box-shadow: 0px 4px 10px rgba(0,0,0,0.15); text-align: left; animation: fadeIn 0.4s ease-out; }
+  .water-result p { margin: 6px 0; font-size: 1.05rem; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+</head>
+<body>
+
+<h1>📷 Scan a Product</h1>
+<video id="camera" autoplay playsinline></video><br>
+<button onclick="predict()">🔍 Scan & Predict</button>
+<div id="result"></div>
+
+<!-- TensorFlow.js -->
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+
+<script>
+let model;
+let webcam;
+let waterData = {};
+
+// Load water footprint JSON
+async function loadData() {
+  const res = await fetch("data.json");
+  waterData = await res.json();
+  console.log("✅ Water footprint data loaded");
+}
+
+// Initialize camera
+async function initCamera() {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+    document.getElementById("camera").srcObject = stream;
+  } catch (err) {
+    alert("Camera access denied: " + err);
+  }
+}
+
+// Load Teachable Machine model
+async function loadModel() {
+  model = await tf.loadGraphModel("tm-my-image-model/model.json");
+  console.log("✅ Custom TM model loaded");
+}
+
+// Predict function
+async function predict() {
+  if (!model) return alert("Model not loaded!");
+
+  const video = document.getElementById("camera");
+  const tensor = tf.browser.fromPixels(video).resizeNearestNeighbor([224,224]).toFloat().expandDims();
+  
+  const predictions = await model.predict(tensor).data();
+  tensor.dispose();
+
+  // Find the class with max probability
+  let maxIdx = predictions.indexOf(Math.max(...predictions));
+  
+  // Map the index to your class names (adjust according to your TM model)
+  const classNames = ["Water Bottle","Juice Bottle","Milk Bottle","Apple","Banana"]; // Example
+  const predictedLabel = classNames[maxIdx];
+  const confidence = (predictions[maxIdx]*100).toFixed(2);
+
+  let footprint = waterData[predictedLabel] || "⚠ No water footprint data available";
+
+  document.getElementById("result").innerHTML = `
+    <div class="water-result">
+      <p>🔎 <strong>Predicted Item:</strong> ${predictedLabel}</p>
+      <p>📊 <strong>Confidence:</strong> ${confidence}%</p>
+      <p>💧 <strong>Water Footprint:</strong> ${footprint}</p>
+    </div>
+  `;
+}
+
+// Initialize everything
+initCamera();
+loadModel();
+loadData();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Water in Your Food — Water Footprint Project</title>
+
+  <!-- Use your global style + a small page-specific block -->
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Page-specific additions */
+    .page-hero {
+      text-align: center;
+      padding: 28px 16px;
+      background: linear-gradient(180deg, #f3fbff 0%, #ffffff 60%);
+      border-bottom: 1px solid #e6eef6;
+      margin-bottom: 18px;
+    }
+    .page-hero h1 { color: #0077b6; font-size: 2rem; margin-bottom: 6px; }
+    .page-hero p { max-width: 900px; margin: 0 auto; color: #333; }
+
+    .content-wrap { max-width: 1100px; margin: 24px auto; padding: 0 16px; }
+
+    .intro, .explain, .tips { margin-bottom: 28px; background: #fff; padding: 18px; border-radius: 10px; box-shadow: 0 6px 18px rgba(14,30,37,0.04); }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+      align-items: start;
+      margin-top: 12px;
+    }
+    figure.card {
+      background: #fafafa;
+      padding: 12px;
+      border-radius: 10px;
+      text-align: center;
+      border: 1px solid #eef6fb;
+    }
+    figure.card img { width: 100%; height: 140px; object-fit: cover; border-radius: 8px; display:block; margin-bottom: 10px; }
+    figure.card figcaption { font-weight: 600; color: #05668d; font-size: 0.95rem; }
+
+    .detail-sections { display: grid; gap: 18px; margin-top: 18px; }
+    .detail { padding: 14px; background: #fff; border-radius: 10px; border: 1px solid #eef6fb; }
+    .detail h3 { color: #0077b6; margin-bottom: 8px; }
+    .detail p { margin-bottom: 10px; color: #222; }
+
+    table.data {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      font-size: 0.95rem;
+    }
+    table.data th, table.data td {
+      border: 1px solid #e6eef6;
+      padding: 8px 10px;
+      text-align: left;
+    }
+    table.data th { background: #f0f7fb; color: #034f84; }
+
+    .tips-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .tip { background: #fff; padding: 12px; border-radius: 8px; border: 1px solid #eef6fb; }
+    .tip h4 { margin-bottom: 6px; color: #05668d; }
+
+    .back-btn {
+      display:inline-block;
+      margin-top: 18px;
+      background: #0077b6; color: white;
+      padding: 10px 16px; border-radius: 8px;
+      text-decoration: none;
+    }
+
+    /* Responsive small spacing */
+    @media (max-width:640px){
+      .page-hero h1 { font-size: 1.4rem; }
+      figure.card img { height: 120px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="page-hero">
+    <h1>Water in Your Food — Virtual Water & Food Footprints</h1>
+    <p>
+      Most of the water you "use" is hidden inside the food you eat. This page explains how food production consumes water,
+      why different foods vary so much, and practical ways you can reduce your food-related water footprint.
+    </p>
+  </header>
+
+  <main class="content-wrap">
+    <!-- Intro -->
+    <section class="intro" aria-labelledby="intro-heading">
+      <h2 id="intro-heading">What is "Virtual Water"?</h2>
+      <p>
+        <strong>Virtual water</strong> is the freshwater used to produce the food and products we consume — from growing crops
+        to processing, packaging and transport. When you eat a meal, you are also consuming the water that went into producing it.
+        The water footprint of a food item counts all water used throughout its life cycle.
+      </p>
+
+      <p><strong>Types of water in footprints</strong> — three commonly used categories:</p>
+      <ul>
+        <li><b>Green water</b>: rainwater stored in soil used directly by plants (important for crops).</li>
+        <li><b>Blue water</b>: surface and groundwater used for irrigation and processing.</li>
+        <li><b>Grey water</b>: the freshwater required to dilute pollutants and return water to acceptable quality after production.</li>
+      </ul>
+    </section>
+
+    <!-- Image grid -->
+    <section class="explain" aria-labelledby="visuals-heading">
+      <h2 id="visuals-heading">Food & Water — Quick Visuals</h2>
+
+      <div class="grid">
+        <figure class="card">
+          <img src="C:\Users\ADMIN\OneDrive\Desktop\water-footprint-project\frontend\cfe.jpg" alt="Cup of coffee" loading="lazy">
+          <figcaption>Coffee — ~140 L per cup (virtual water)</figcaption>
+        </figure>
+
+        <figure class="card">
+          <img src="C:\Users\ADMIN\OneDrive\Desktop\water-footprint-project\frontend\beef.png" alt="Beef steak on plate" loading="lazy">
+          <figcaption>Beef — ~15,400 L per kg</figcaption>
+        </figure>
+
+        <figure class="card">
+          <img src="C:\Users\ADMIN\OneDrive\Desktop\water-footprint-project\frontend\bowl rice.jpg" alt="Bowl of rice" loading="lazy">
+          <figcaption>Rice — ~2,500 L per kg</figcaption>
+        </figure>
+
+        <figure class="card">
+          <img src="C:\Users\ADMIN\OneDrive\Desktop\water-footprint-project\frontend\Fruits-and-Vegetables.jpg" alt="Fresh vegetables" loading="lazy">
+          <figcaption>Vegetables & fruits — much lower per kcal than meat</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- Details -->
+    <section class="detail-sections" aria-label="Detailed food explanations">
+      <article class="detail" id="coffee">
+        <h3>Coffee & Tea</h3>
+        <p>
+          Coffee and tea have relatively high virtual water because coffee beans and tea leaves are water-intensive crops (and
+          coffee requires processing). A single cup of coffee can represent roughly <strong>100–200 liters</strong> of water
+          (growing + processing). Instant coffee and espresso have different footprints, but the key idea is: many small
+          daily cups add up.
+        </p>
+      </article>
+
+      <article class="detail" id="meat">
+        <h3>Meat & Animal Products</h3>
+        <p>
+          Animal-based foods tend to have the largest water footprints per kilogram. This is because animals are fed crops
+          (which require water), and raising livestock uses water for drinking, cleaning, and processing.
+          Example averages:
+        </p>
+        <ul>
+          <li>Beef: ~<strong>10,000–15,400 L/kg</strong> (varies by farming system and feed)</li>
+          <li>Pork: ~<strong>4,000–6,000 L/kg</strong></li>
+          <li>Chicken: ~<strong>2,000–4,300 L/kg</strong></li>
+          <li>Egg: ~<strong>200 L / egg</strong> (approx.)</li>
+        </ul>
+      </article>
+
+      <article class="detail" id="dairy">
+        <h3>Dairy (Milk, Cheese, Yogurt)</h3>
+        <p>
+          Dairy products have significant footprints due to feed and processing. For example, one liter of milk might be
+          around <strong>200–1000 L</strong> (values depend a lot on production system). Cheese is water-intensive because it
+          takes many liters of milk to make 1 kg of cheese: typical footprints are in the <strong>thousands of liters/kg</strong>.
+        </p>
+      </article>
+
+      <article class="detail" id="cereals">
+        <h3>Cereals, Vegetables & Legumes</h3>
+        <p>
+          Plant-based foods generally require less blue water per calorie than meat. Examples:
+          rice ~<strong>2,500 L/kg</strong>, wheat ~<strong>1,300 L/kg</strong>, potatoes ~<strong>290 L/kg</strong>.
+          Legumes and pulses often have lower footprints and are protein-efficient alternatives to meat.
+        </p>
+      </article>
+    </section>
+
+    <!-- Table of typical footprints -->
+    <section class="detail">
+      <h3>Typical Water Footprint Values (approximate)</h3>
+      <p>Note: values vary by region, farming practice, and year — these are illustrative averages.</p>
+      <table class="data" aria-label="Water footprint table">
+        <thead>
+          <tr><th>Item</th><th>Unit</th><th>Approx. Water (liters)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Coffee (1 cup)</td><td>~125 ml</td><td>~140 L</td></tr>
+          <tr><td>Beef</td><td>1 kg</td><td>~15,400 L</td></tr>
+          <tr><td>Chicken</td><td>1 kg</td><td>~4,300 L</td></tr>
+          <tr><td>Rice</td><td>1 kg</td><td>~2,500 L</td></tr>
+          <tr><td>Wheat</td><td>1 kg</td><td>~1,300 L</td></tr>
+          <tr><td>Potatoes</td><td>1 kg</td><td>~290 L</td></tr>
+          <tr><td>Almonds</td><td>1 kg</td><td>~16,000 L</td></tr>
+          <tr><td>Cotton T-shirt</td><td>1 piece</td><td>~2,700 L</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Tips -->
+    <section class="tips">
+      <h2>How to Reduce Food-Related Water Use</h2>
+      <div class="tips-grid">
+        <div class="tip">
+          <h4>Eat more plant-based meals</h4>
+          <p>Shifting some meals away from meat and dairy to legumes and vegetables reduces your virtual water substantially.</p>
+        </div>
+
+        <div class="tip">
+          <h4>Reduce food waste</h4>
+          <p>Nearly one third of food produced is wasted — and so is the water used to produce it. Plan meals & store food properly.</p>
+        </div>
+
+        <div class="tip">
+          <h4>Choose sustainable products</h4>
+          <p>Look for locally grown, seasonal, and sustainably produced items (less irrigation, responsible farming).</p>
+        </div>
+
+        <div class="tip">
+          <h4>Smarter coffee & nuts choices</h4>
+          <p>Enjoy coffee in moderation; choose blends/brands that publish sustainable sourcing. Nuts (like almonds) are water-intensive — eat sparingly.</p>
+        </div>
+      </div>
+    </section>
+
+    <p style="font-size:0.95rem; color:#555;">
+      <strong>Sources & notes:</strong> Approximate values are illustrative and vary across sources and regions.
+      For rigorous research and country-level numbers, consult publications such as the Water Footprint Network and peer-reviewed LCA studies.
+    </p>
+
+    <a class="back-btn" href="about.html">← Back to Topics</a>
+  </main>
+
+  <footer style="text-align:center; padding:18px 0; color:#666;">
+    © 2025 Water Footprint Project
+  </footer>
+</body>
+</html>
